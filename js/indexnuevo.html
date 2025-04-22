@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparación Git: Local vs Remoto</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .comparison-table thead tr {
+      background-color: #0366d6;
+      color: white;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    .comparison-table tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    .comparison-table tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    .comparison-table tbody tr:last-of-type {
+      border-bottom: 2px solid #0366d6;
+    }
+
+    .feature-column {
+      font-weight: bold;
+      width: 25%;
+    }
+
+    .local-column {
+      background-color: #e6f7ff;
+      width: 37.5%;
+    }
+
+    .remote-column {
+      background-color: #f3f0ff;
+      width: 37.5%;
+    }
+
+    .highlight {
+      background-color: #ffebcd;
+      transition: background-color 0.3s;
+    }
+
+    .filter-container {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #filter {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      width: 300px;
+      font-size: 16px;
+    }
+
+    .toggle-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .toggle-button {
+      padding: 8px 16px;
+      background-color: #f1f1f1;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .toggle-button.active {
+      background-color: #0366d6;
+      color: white;
+    }
+
+    .advantages {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .disadvantages {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .responsive-notice {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-table {
+        font-size: 14px;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 8px 10px;
+      }
+
+      .responsive-notice {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Comparación: Git Local vs Remoto</h1>
+
+  <div class="filter-container">
+    <input type="text" id="filter" placeholder="Filtrar por característica...">
+  </div>
+
+  <div class="toggle-buttons">
+    <button class="toggle-button active" data-category="all">Todo</button>
+    <button class="toggle-button" data-category="basics">Conceptos Básicos</button>
+    <button class="toggle-button" data-category="usage">Uso</button>
+    <button class="toggle-button" data-category="collaboration">Colaboración</button>
+    <button class="toggle-button" data-category="security">Seguridad</button>
+  </div>
+
+  <table class="comparison-table">
+    <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Git Local</th>
+      <th>Git Remoto</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-category="basics">
+      <td class="feature-column">Definición</td>
+      <td class="local-column">Repositorio almacenado en la máquina del usuario donde se realizan operaciones Git.</td>
+      <td class="remote-column">Repositorio alojado en un servidor accesible a través de internet (GitHub, GitLab, Bitbucket, etc.).</td>
+    </tr>
+    <tr data-category="basics">
+      <td class="feature-column">Comandos principales</td>
+      <td class="local-column">git init, git add, git commit, git branch, git checkout</td>
+      <td class="remote-column">git clone, git push, git pull, git fetch</td>
+    </tr>
+    <tr data-category="basics">
+      <td class="feature-column">Almacenamiento</td>
+      <td class="local-column">Carpeta .git en el directorio del proyecto</td>
+      <td class="remote-column">Servidor dedicado (propio o de terceros como GitHub)</td>
+    </tr>
+    <tr data-category="usage">
+      <td class="feature-column">Accesibilidad</td>
+      <td class="local-column"><span class="disadvantages">Limitada</span> - Solo desde la máquina donde está almacenado</td>
+      <td class="remote-column"><span class="advantages">Alta</span> - Desde cualquier lugar con conexión a internet</td>
+    </tr>
+    <tr data-category="usage">
+      <td class="feature-column">Conexión a internet</td>
+      <td class="local-column"><span class="advantages">No requerida</span> para operaciones básicas</td>
+      <td class="remote-column"><span class="disadvantages">Requerida</span> para sincronización</td>
+    </tr>
+    <tr data-category="security">
+      <td class="feature-column">Respaldo</td>
+      <td class="local-column"><span class="disadvantages">Limitado</span> - Vulnerable a fallas de hardware local</td>
+      <td class="remote-column"><span class="advantages">Robusto</span> - Los servidores suelen tener sistemas redundantes</td>
+    </tr>
+    <tr data-category="collaboration">
+      <td class="feature-column">Colaboración</td>
+      <td class="local-column"><span class="disadvantages">Difícil</span> - Requiere compartir archivos manualmente</td>
+      <td class="remote-column"><span class="advantages">Sencilla</span> - Múltiples personas pueden contribuir simultáneamente</td>
+    </tr>
+    <tr data-category="collaboration">
+      <td class="feature-column">Pull Requests / Merge Requests</td>
+      <td class="local-column">No disponible nativamente</td>
+      <td class="remote-column">Soportado en plataformas como GitHub, GitLab, etc.</td>
+    </tr>
+    <tr data-category="collaboration">
+      <td class="feature-column">Code Review</td>
+      <td class="local-column"><span class="disadvantages">Limitado</span> - Sin herramientas específicas</td>
+      <td class="remote-column"><span class="advantages">Avanzado</span> - Herramientas integradas para revisión de código</td>
+    </tr>
+    <tr data-category="security">
+      <td class="feature-column">Control de acceso</td>
+      <td class="local-column">Control básico del sistema de archivos</td>
+      <td class="remote-column">Gestión de permisos granular (lectura/escritura/administración)</td>
+    </tr>
+    <tr data-category="usage">
+      <td class="feature-column">Integración CI/CD</td>
+      <td class="local-column"><span class="disadvantages">Limitada</span> - Requiere configuración adicional</td>
+      <td class="remote-column"><span class="advantages">Nativa</span> - Fácil integración con pipelines de CI/CD</td>
+    </tr>
+    <tr data-category="usage">
+      <td class="feature-column">Historial de cambios</td>
+      <td class="local-column">Disponible localmente</td>
+      <td class="remote-column">Disponible para todos los colaboradores</td>
+    </tr>
+    <tr data-category="usage">
+      <td class="feature-column">Velocidad de operaciones</td>
+      <td class="local-column"><span class="advantages">Rápida</span> - Sin latencia de red</td>
+      <td class="remote-column"><span class="disadvantages">Variable</span> - Dependiente de la conexión a internet</td>
+    </tr>
+    <tr data-category="security">
+      <td class="feature-column">Firma de commits</td>
+      <td class="local-column">Configurable localmente</td>
+      <td class="remote-column">Verificable por otros colaboradores</td>
+    </tr>
+    <tr data-category="collaboration">
+      <td class="feature-column">Resolución de conflictos</td>
+      <td class="local-column">Manual, usando herramientas locales</td>
+      <td class="remote-column">Asistida por interfaces web en plataformas como GitHub</td>
+    </tr>
+    <tr data-category="basics">
+      <td class="feature-column">Flujo de trabajo típico</td>
+      <td class="local-column">add → commit → branch → merge</td>
+      <td class="remote-column">clone → pull → push → pull request</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p class="responsive-notice">Desliza horizontalmente para ver toda la tabla en dispositivos móviles.</p>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Filtro de texto
+    const filterInput = document.getElementById('filter');
+    filterInput.addEventListener('keyup', function() {
+      const value = this.value.toLowerCase();
+      const rows = document.querySelectorAll('.comparison-table tbody tr');
+
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(value) ? '' : 'none';
+      });
+    });
+
+    // Filtro por categoría
+    const toggleButtons = document.querySelectorAll('.toggle-button');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Actualizar botones activos
+        toggleButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.getAttribute('data-category');
+        const rows = document.querySelectorAll('.comparison-table tbody tr');
+
+        rows.forEach(row => {
+          if (category === 'all' || row.getAttribute('data-category') === category) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Resaltar filas al pasar el ratón
+    const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+    tableRows.forEach(row => {
+      row.addEventListener('mouseenter', function() {
+        this.classList.add('highlight');
+      });
+
+      row.addEventListener('mouseleave', function() {
+        this.classList.remove('highlight');
+      });
+    });
+  });
+</script>
+</body>
+</html>
